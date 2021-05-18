@@ -5,4 +5,10 @@
 
 
 第一次使用請至 jsonHome/auth.json
-設定bot login key
+設定bot token
+
+```
+{
+    "key": "your bot token"
+}
+```
