@@ -19,7 +19,7 @@ exports.InsertSlash = (async (guildID) => {
         CatchF.LogDo('Started refreshing application (/) commands.');
 
         await rest.put(
-            Routes.applicationGuildCommands('736619958179725412', guildID),
+            Routes.applicationGuildCommands(auth.botID, guildID),
             { body: commandDatas },
         );
 
