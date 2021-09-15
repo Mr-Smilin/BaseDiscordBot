@@ -1,21 +1,23 @@
 //#region Discord宣告
 //#region 基本行為
-const Discord = require('discord.js');
-const client = new Discord.Client();
 const auth = require('./jsonHome/auth.json');
 const prefix = require('./jsonHome/prefix.json');
 const CatchF = require('./baseJS/CatchF.js');
 const DSM = require('./baseJS/DiscordJSmySelf.js');
 
-client.login(auth.key);
 
-client.on('ready', DiscordReady);
-client.on('message', DiscordMessage);
-
+let client;
+DoStart();
+async function DoStart() {
+    client = await DSM.Login(auth.key);
+    DSM.On(client, 'ready', DiscordReady);
+    DSM.On(client, 'message', DiscordMessage);
+}
 //#endregion
 
 //#region 基本方法
 function DiscordReady() {
+    console.log(client);
     console.log(`Logged in as ${client.user.tag}!`);
 }
 
