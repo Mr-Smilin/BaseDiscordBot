@@ -1,5 +1,5 @@
-const Discord = require('discord.js');
-const client = new Discord.Client();
+const { Client } = require('discord.js');
+const client = new Client({ intents: 32767, partials: ["MESSAGE", "CHANNEL", "REACTION"] });
 const CatchF = require('./CatchF.js');
 
 //#region 動作
@@ -48,23 +48,25 @@ exports.MContent = (discordMessage) => {
 
 /**
  * 監聽事件
- * @param {Discord.Client} client 如果沒有此欄位，請先使用Login方法
+ * @param {Discord.Client} cl 如果沒有此欄位，請先使用Login方法
  * @param {string} name  
  * @param {*} doSomeThing 
  */
 exports.On = function (cl, name, doSomeThing) {
     try {
-        console.log(cl);
         switch (name) {
             case 'ready':
                 cl.on('ready', doSomeThing);
                 break;
             case 'message':
-                cl.on('message', doSomeThing);
+                cl.on('messageCreate', doSomeThing);
+                break;
+            case 'interaction':
+                cl.on('interactionCreate', doSomeThing);
                 break;
         }
     } catch (err) {
-        throw new Error("on啟動失敗: " + err);
+        CatchF.ErrorDo(err, "on啟動失敗: ");
     }
 }
 
@@ -82,7 +84,7 @@ exports.Login = async function (key) {
         return client;
     }
     catch (err) {
-        throw new Error("Login事件失敗!請確認key值:" + err);
+        CatchF.EmptyDo(err, "Login事件失敗!請確認key值:");
     }
 }
 
