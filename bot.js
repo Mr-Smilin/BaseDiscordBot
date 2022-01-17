@@ -18,15 +18,11 @@ async function DoStart() {
 //#endregion
 
 //#region 基本方法
-async function DiscordReady() {
+function DiscordReady() {
     console.log(`Logged in as ${client.user.tag}!`);
-    CatchF.LogDo('Started refreshing application (/) commands.');
-    const guilds = await client.guilds.fetch();
-    slash.InsertSlash(guilds);
-    CatchF.LogDo('Successfully reloaded application (/) commands.');
 }
 
-async function DiscordMessage(msg) {
+function DiscordMessage(msg) {
     try {
         if (!msg.guild || !msg.member) return;
         if (!msg.member.user) return;

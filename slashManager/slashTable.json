@@ -1,8 +1,6 @@
 [
   {
-    "name": "test",
-    "description": "Replies with Pong!",
-    "replyType": 0,
-    "reply": "pong!"
+    "name": "ping",
+    "description": "Replies with Pong!"
   }
 ]

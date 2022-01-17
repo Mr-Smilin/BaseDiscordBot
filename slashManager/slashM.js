@@ -9,37 +9,22 @@ const rest = new REST({ version: '9' }).setToken(auth.key);
 exports.DiscordInteraction = (async (interaction) => {
     if (!interaction.isCommand()) return;
 
-    for (i of commandDatas) {
-        if (i === null) continue;
-        if (interaction.commandName === i.name) {
-            await interaction.reply(getReply(i));
-        }
-    }
-
     if (interaction.commandName === 'ping') {
         await interaction.reply('Pong!');
     }
 });
 
-function getReply(interaction) {
-    switch (interaction.replyType) {
-        case 0:
-            return interaction.reply;
+exports.InsertSlash = (async (guildID) => {
+    try {
+        CatchF.LogDo('Started refreshing application (/) commands.');
+
+        await rest.put(
+            Routes.applicationGuildCommands(auth.botID, guildID),
+            { body: commandDatas },
+        );
+
+        CatchF.LogDo('Successfully reloaded application (/) commands.');
+    } catch (err) {
+        CatchF.EmptyDo(err);
     }
-}
-
-exports.InsertSlash = (async (guilds) => {
-    const keys = [...guilds.keys()];
-    for (let guildID of keys) {
-        try {
-            await rest.put(
-                Routes.applicationGuildCommands(auth.botID, guildID),
-                { body: commandDatas },
-            );
-        } catch (err) {
-            CatchF.EmptyDo(err);
-        }
-    }
-});
-
-
+})();
