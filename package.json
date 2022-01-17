@@ -1,8 +1,8 @@
 {
   "name": "mirrorgame",
   "version": "1.0.0",
-  "description": "bot",
-  "main": "bot.js",
+  "description": "alice",
+  "main": "alice.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -48,7 +48,7 @@ exports.MContent = (discordMessage) => {
 
 /**
  * 監聽事件
- * @param {Discord.Client} cl 如果沒有此欄位，請先使用Login方法
+ * @param {Discord.Client} cl 如果沒有client，請先使用Login方法
  * @param {string} name  
  * @param {*} doSomeThing 
  */
