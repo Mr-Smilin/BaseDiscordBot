@@ -1,12 +1,17 @@
+//#region import
+// 載入env變量
+require('dotenv').config();
+// Discord
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
-const CatchF = require('../baseJS/CatchF');
-const auth = require('../jsonHome/auth.json');
+const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
+// js
+const CatchF = require('../baseJS/CatchF.js');
+// json
 const commandDatas = require('./slashTable.json');
+//#endregion
 
-const rest = new REST({ version: '9' }).setToken(auth.key);
-
-exports.DiscordInteraction = (async (interaction) => {
+exports.Start = (async (interaction) => {
     if (!interaction.isCommand()) return;
 
     for (i of commandDatas) {

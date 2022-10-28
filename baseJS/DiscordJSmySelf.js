@@ -1,6 +1,10 @@
+//#region import
+// Discord
 const { Client } = require('discord.js');
 const client = new Client({ intents: 32767, partials: ["MESSAGE", "CHANNEL", "REACTION"] });
+// js
 const CatchF = require('./CatchF.js');
+//#endregion
 
 //#region 動作
 
