@@ -8,7 +8,13 @@
       "name":"input",
       "type":"string",
       "description":"輸入文字",
-      "required": true
+      "required": true,
+      "choices":[{
+        "name": "funny","value": "yeee"
+      },
+      {
+        "name": "funny2","value": "yeee2"
+      }]
     }]
   }
 ]

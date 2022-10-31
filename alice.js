@@ -26,8 +26,7 @@ async function DiscordReady() {
     console.log(`Logged in as ${client.user.tag}!`);
     // 註冊協槓命令
     CatchF.LogDo('Started refreshing application (/) commands.');
-    const guilds = await client.guilds.fetch();
-    slashM.InsertSlash(guilds);
+    slashM.InsertSlash();
     CatchF.LogDo('Successfully reloaded application (/) commands.');
 }
 

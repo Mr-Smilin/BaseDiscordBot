@@ -27,54 +27,88 @@ exports.Start = (async (interaction) => {
     }
 });
 
-exports.InsertSlash = (async (guilds) => {
-    const keys = [...guilds.keys()];
-    for (let guildID of keys) {
-        try {
-            await rest.put(
-                Routes.applicationGuildCommands(process.env.BOT_ID, guildID),
-                { body: getApplicationGildCommands(commandDatas) },
-            );
-        } catch (err) {
-            CatchF.ErrorDo(err,"InsertSlash: ");
-        }
+exports.InsertSlash = (async () => {
+    try {
+        await rest.put(
+            Routes.applicationCommands(process.env.BOT_ID),
+            { body: getApplicationCommands(commandDatas) },
+        );
+    } catch (err) {
+        CatchF.ErrorDo(err,"InsertSlash: ");
     }
 });
 
-function getApplicationGildCommands(commandDatas){
+function getApplicationCommands(commandDatas){
     const returnData = [];
     for(i of commandDatas){
         const slashCommandBuilder = new SlashCommandBuilder()
             .setName(i?.name)
             .setDescription(i?.description);
         for(j of i?.options){
+            const choices = j?.choices || [];
             switch(j?.type){
                 case "string":
-                    slashCommandBuilder.addStringOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addStringOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "int":
-                    slashCommandBuilder.addIntegerOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addIntegerOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "bool":
-                    slashCommandBuilder.addBooleanOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addBooleanOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "user":
-                    slashCommandBuilder.addUserOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addUserOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "channel":
-                    slashCommandBuilder.addChannelOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addChannelOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "role":
-                    slashCommandBuilder.addRoleOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addRoleOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "mention":
-                    slashCommandBuilder.addMentionableOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addMentionableOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "number":
-                    slashCommandBuilder.addNumberOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addNumberOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
                 case "attachment":
-                    slashCommandBuilder.addAttachmentOption(option => option.setName(j?.name).setDescription(j?.description).setRequired(j?.require));
+                    slashCommandBuilder.addAttachmentOption(option => {
+                        option.setName(j?.name).setDescription(j?.description).setRequired(j?.required);
+                        choices?.map(choice => option.addChoices(choice));
+                        return option;
+                    });
                     break;
             }
         }
