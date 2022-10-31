@@ -1,7 +1,7 @@
 //#region import
 // Discord
-const { Client } = require('discord.js');
-const client = new Client({ intents: 32767, partials: ["MESSAGE", "CHANNEL", "REACTION"] });
+const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const client = new Client({ intents: [GatewayIntentBits?.Guilds], partials: [Partials?.Message, Partials?.Channel, Partials?.Reaction] });
 // js
 const CatchF = require('./CatchF.js');
 //#endregion
@@ -13,13 +13,13 @@ const CatchF = require('./CatchF.js');
  * @param {} discordObject Discord.Message
  * @param {string} message 訊息
  * @param {number} type 告知discordObject類型 0=Message,1=Channel,2=Guild 預設0
- * @param {string} channelID 頻道ID,當type大於等於1時為必填
- * @param {string} guildID 群組ID,當type大於等於2時為必填
+ * @param {string} channelId 頻道ID,當type大於等於1時為必填
+ * @param {string} guildId 群組ID,當type大於等於2時為必填
  */
-exports.Send = async function (discordObject, message, type = 0, channelID = '', guildID = '') {
+exports.Send = async function (discordObject, message, type = 0, channelId = '', guildId = '') {
     if (!(/^[0-9]*$/.test(type))) return new Error(CatchF.ErrorDo('type Error'))
-    if (type >= 1 && channelID === '') return new Error(CatchF.ErrorDo('channelID Error'))
-    if (type >= 2 && guildID === '') return new Error(CatchF.ErrorDo('guildID Error'))
+    if (type >= 1 && channelId === '') return new Error(CatchF.ErrorDo('channelId Error'))
+    if (type >= 2 && guildId === '') return new Error(CatchF.ErrorDo('guildId Error'))
     try {
         let guild;
         let channel;
@@ -27,11 +27,11 @@ exports.Send = async function (discordObject, message, type = 0, channelID = '',
             case 0:
                 return await discordObject.channel.send(message);
             case 1:
-                channel = await discordObject.fetch(channelID);
+                channel = await discordObject.fetch(channelId);
                 return await channel.send(message);
             case 2:
-                guild = await discordObject.fetch(guildID);
-                channel = await guild.channels.fetch(channelID);
+                guild = await discordObject.fetch(guildId);
+                channel = await guild.channels.fetch(channelId);
                 return await channel.send(message);
         }
     } catch (err) { return CatchF.ErrorDo(err, 'SendMessage Fail') }
