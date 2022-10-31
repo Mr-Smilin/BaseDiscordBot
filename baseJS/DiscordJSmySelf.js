@@ -16,7 +16,7 @@ const CatchF = require('./CatchF.js');
  * @param {string} channelID 頻道ID,當type大於等於1時為必填
  * @param {string} guildID 群組ID,當type大於等於2時為必填
  */
-exports.SM = async function (discordObject, message, type = 0, channelID = '', guildID = '') {
+exports.Send = async function (discordObject, message, type = 0, channelID = '', guildID = '') {
     if (!(/^[0-9]*$/.test(type))) return new Error(CatchF.ErrorDo('type Error'))
     if (type >= 1 && channelID === '') return new Error(CatchF.ErrorDo('channelID Error'))
     if (type >= 2 && guildID === '') return new Error(CatchF.ErrorDo('guildID Error'))
