@@ -34,7 +34,7 @@ exports.InsertSlash = (async (guilds) => {
     for (let guildID of keys) {
         try {
             await rest.put(
-                Routes.applicationGuildCommands(auth.botID, guildID),
+                Routes.applicationGuildCommands(process.env.BOT_ID, guildID),
                 { body: commandDatas },
             );
         } catch (err) {

@@ -1,15 +1,13 @@
 # BaseDiscordBot
- 基礎Discord模板
 
-基於 Discord.js 13.1.0 版
+基礎 Discord 模板
 
+基於 Discord.js 14.1.0 版
 
-第一次使用請至 jsonHome/auth.json
-設定bot token
+第一次使用請在根目錄創建 .env
+設定 bot token
 
 ```
-{
-    "key": "your bot token",
-    "botID": "your bot ID"
-}
+TOKEN="your bot token"
+BOT_ID="your bot ID"
 ```
