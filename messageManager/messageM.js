@@ -27,10 +27,10 @@ exports.Start = (async (msg) => {
 
         switch (nowPrefix) {
             case '0':
-                DSM.Send(msg, "test");
+                DSM.MSend(msg, "test");
                 break;
             case '1':
-                DSM.Send(msg, "ok");
+                DSM.MSend(msg, "ok");
                 break;
         }
     } catch (err) {

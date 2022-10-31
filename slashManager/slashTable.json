@@ -1,8 +1,14 @@
 [
   {
     "name": "test",
-    "description": "Replies with Pong!",
+    "description": "阿你就輸入點甚麼啦1",
     "replyType": 0,
-    "reply": "pong!"
+    "reply": "pong!",
+    "options":[{
+      "name":"input",
+      "type":"string",
+      "description":"輸入文字",
+      "required": true
+    }]
   }
 ]

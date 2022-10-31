@@ -22,7 +22,9 @@ async function DoStart() {
 //#endregion
 //#region 基本方法
 async function DiscordReady() {
+    // 系統訊息
     console.log(`Logged in as ${client.user.tag}!`);
+    // 註冊協槓命令
     CatchF.LogDo('Started refreshing application (/) commands.');
     const guilds = await client.guilds.fetch();
     slashM.InsertSlash(guilds);
