@@ -1,0 +1,7 @@
+{
+    "blue":"PRIMARY",
+    "gray":"SECONDARY",
+    "green":"SUCCESS",
+    "red":"DANGER",
+    "link":"LINK"
+}
