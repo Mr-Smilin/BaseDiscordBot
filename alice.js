@@ -2,12 +2,13 @@
 // 載入env變量
 require("dotenv").config();
 // Discord
-const DSM = require("./baseJS/DiscordJSmySelf.js");
+const DBD = require("./baseJS/BaseDiscordBot.js");
 // js
 const CatchF = require("./baseJS/CatchF.js");
 const slashM = require("./slashManager/slashM.js");
 const messageM = require("./messageManager/messageM.js");
 const buttonM = require("./buttonManager/buttonM.js");
+const selectMenuM = require("./selectMenuManager/selectMenuM.js");
 //#endregion
 
 //#region Discord宣告
@@ -15,11 +16,12 @@ const buttonM = require("./buttonManager/buttonM.js");
 let client;
 DoStart();
 async function DoStart() {
-	client = await DSM.Login(process.env.TOKEN);
-	DSM.On(client, "ready", DiscordReady);
-	DSM.On(client, "message", messageM.Start);
-	DSM.On(client, "slash", slashM.Start);
-	DSM.On(client, "button", buttonM.Start);
+	client = await DBD.Login(process.env.TOKEN);
+	DBD.On(client, "ready", DiscordReady);
+	DBD.On(client, "message", messageM.Start);
+	DBD.On(client, "slash", slashM.Start);
+	DBD.On(client, "button", buttonM.Start);
+	DBD.On(client, "selectMenu", selectMenuM.Start);
 }
 //#endregion
 //#region 基本方法

@@ -9,9 +9,10 @@ const CatchF = require("../baseJS/CatchF.js");
 //#endregion
 
 exports.Start = async (interaction) => {
-	if (!DBD.IIsButton(interaction)) return;
+	if (!DBD.IIsSelectMenu(interaction)) return;
 	if (DBD.IIsBot(interaction)) return;
 	interaction?.user?.id === process.env.MASTER_ID &&
-		console.log("button: ", interaction);
-	// interaction.customId
+		console.log("selectMenu: ", interaction);
+	// interaction.customId 選單ID
+	// interaction.values []
 };

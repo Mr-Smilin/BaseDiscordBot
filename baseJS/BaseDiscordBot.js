@@ -1,12 +1,14 @@
 //#region import
 // Discord
 const {
+	Events,
 	Client,
 	GatewayIntentBits,
 	Partials,
 	ButtonStyle,
 	ActionRowBuilder,
 	ButtonBuilder,
+	SelectMenuBuilder,
 } = require("discord.js");
 const client = new Client({
 	intents: [GatewayIntentBits?.Guilds],
@@ -21,7 +23,7 @@ const catchF = require("./CatchF.js");
 const buttonType = require("../buttonManager/buttonType.json");
 //#endregion
 
-//#region 訊息動作
+//#region 訊息動作 M
 
 /** 定義 Discord.js 各種類型的訊息傳送
  *
@@ -71,19 +73,19 @@ exports.MContent = (discordMessage) => discordMessage.content;
 
 //#endregion
 
-//#region 斜線動作
+//#region 斜線動作 S
 
 /** 定義斜線命令的訊息傳送方法
  *
- * @param {*} discordInteraction Discord.Interaction
+ * @param {*} interaction Discord.Interaction
  * @param {string} message 訊息
  * @param {number} replyType 0 = 一般回傳訊息
  * @returns
  */
-exports.SSend = async function (discordInteraction, message, replyType = 0) {
+exports.SSend = async function (interaction, message, replyType = 0) {
 	switch (replyType) {
 		case 0:
-			return await discordInteraction.reply(message);
+			return await interaction.reply(message);
 	}
 };
 
@@ -105,21 +107,12 @@ exports.SRestPutRoutes = async (rest, body = []) =>
 		body: body,
 	});
 
-/** 回傳 interaction 是否為命令
- *
- * @param {*} discordInteraction
- * @return {boolean}
- */
-exports.SIsCommand = (discordInteraction) =>
-	discordInteraction.isChatInputCommand();
-
 /** 回傳 interaction.commandName
  *
- * @param {*} discordInteraction
+ * @param {*} interaction
  * @return {string}
  */
-exports.SGetCommandName = (discordInteraction) =>
-	discordInteraction.commandName;
+exports.SGetCommandName = (interaction) => interaction.commandName;
 
 /** 回傳 斜線指令輸入值物件
  *
@@ -127,7 +120,7 @@ exports.SGetCommandName = (discordInteraction) =>
  * @param {string} description
  * @returns {SlashCommandBuilder}
  */
-exports.SNewSlashCommandBuilder = (name = "", description = "") =>
+exports.SNewSlashCommand = (name = "", description = "") =>
 	new SlashCommandBuilder().setName(name).setDescription(description);
 
 /** 新增選項物件
@@ -139,7 +132,7 @@ exports.SNewSlashCommandBuilder = (name = "", description = "") =>
  * @param {boolean} required 是否必填
  * @param {*} choices 預設選項陣列
  */
-exports.SNewOption = (
+exports.SPushOption = (
 	slashCommandBuilder,
 	type = "string",
 	name = "",
@@ -216,30 +209,7 @@ exports.SNewOption = (
 
 //#endregion
 
-//#region 按鈕動作
-
-/** 回傳 interaction 是否為按鈕事件
- *
- * @param {*} discordInteraction
- * @return {boolean}
- */
-exports.BIsButton = (discordInteraction) => discordInteraction.isButton();
-
-/** 回傳 interaction 是否為是bot發出
- *
- * @param {*} discordInteraction
- * @return {boolean}
- */
-exports.BIsBot = (discordInteraction) => discordInteraction?.user?.bot;
-
-/** 新增一個按鈕到動作組件內
- *
- * @param {ActionRowBuilder} actionRowBuilder
- * @param {ButtonBuilder} components
- * @returns {ActionRowBuilder}
- */
-exports.BActionRowAddComponents = (actionRowBuilder, components) =>
-	actionRowBuilder.addComponents(components);
+//#region 按鈕動作 B
 
 /** 回傳一個 ButtonBuilder
  *
@@ -285,6 +255,60 @@ function BGetButtonType(type) {
 
 //#endregion
 
+//#region 菜單動作 SM
+
+/** 回傳一個 菜單
+ *
+ * @param {string} customId 菜單參數
+ * @param {string} placeholder 默認值
+ * @returns
+ */
+exports.SMNewSelectMenu = (customId = "", placeholder = "") =>
+	new SelectMenuBuilder().setCustomId(customId).setPlaceholder(placeholder);
+
+/** 新增一個 選項
+ *
+ * @param {SelectMenuBuilder} selectMenuBuilder
+ * @param {*} options
+ * @returns
+ */
+exports.SMPushOptions = (selectMenuBuilder, options = []) =>
+	options.map((option) => selectMenuBuilder.addOptions(option));
+
+//#endregion
+
+//#region 交互動作 I
+
+/** 回傳 interaction 是否為命令物件
+ *
+ * @param {*} interaction
+ * @return {boolean}
+ */
+exports.IIsCommand = (interaction) => interaction.isChatInputCommand();
+
+/** 回傳 interaction 是否為按鈕物件
+ *
+ * @param {*} interaction
+ * @return {boolean}
+ */
+exports.IIsButton = (interaction) => interaction.isButton();
+
+/** 回傳 interaction 是否為菜單物件
+ *
+ * @param {*} interaction
+ * @returns {boolean}
+ */
+exports.IIsSelectMenu = (interaction) => interaction.isSelectMenu();
+
+/** 回傳 interaction 是否為是bot發出
+ *
+ * @param {*} interaction
+ * @return {boolean}
+ */
+exports.IIsBot = (interaction) => interaction?.user?.bot;
+
+//#endregion
+
 //#region 組件動作
 
 /** 回傳一個 ActionRowBuilder
@@ -293,6 +317,14 @@ function BGetButtonType(type) {
  */
 exports.NewActionRow = () => new ActionRowBuilder();
 
+/** 新增一個組件到動作組件內
+ *
+ * @param {ActionRowBuilder} actionRowBuilder
+ * @param {ButtonBuilder | SelectMenuBuilder} components
+ * @returns {ActionRowBuilder}
+ */
+exports.ActionRowAddComponents = (actionRowBuilder, components) =>
+	actionRowBuilder.addComponents(components);
 //#endregion
 
 //#region 監聽
@@ -307,16 +339,19 @@ exports.On = function (cl, name, doSomeThing) {
 	try {
 		switch (name) {
 			case "ready":
-				cl.on("ready", doSomeThing);
+				cl.on(Events?.ClientReady && "ready", doSomeThing);
 				break;
 			case "message":
-				cl.on("messageCreate", doSomeThing);
+				cl.on(Events?.MessageCreate && "messageCreate", doSomeThing);
 				break;
 			case "slash":
-				cl.on("interactionCreate", doSomeThing);
+				cl.on(Events?.InteractionCreate && "interactionCreate", doSomeThing);
 				break;
 			case "button":
-				cl.on("interactionCreate", doSomeThing);
+				cl.on(Events?.InteractionCreate && "interactionCreate", doSomeThing);
+				break;
+			case "selectMenu":
+				cl.on(Events?.InteractionCreate && "interactionCreate", doSomeThing);
 				break;
 		}
 	} catch (err) {

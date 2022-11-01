@@ -43,6 +43,8 @@ BDB 透過 `slashTable` 與 `discord.js` 溝通
 ```
 [
   {
+    // 斜線命令 ID (內部用)
+    "id": 0
     // 斜線命令名稱
     "name": "test",
     // 斜線命令簡介

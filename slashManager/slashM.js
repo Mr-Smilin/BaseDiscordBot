@@ -2,8 +2,8 @@
 // 載入env變量
 require("dotenv").config();
 // Discord
-const DSM = require("../baseJS/DiscordJSmySelf.js");
-const rest = DSM.SNewRest();
+const DBD = require("../baseJS/BaseDiscordBot.js");
+const rest = DBD.SNewRest();
 // js
 const CatchF = require("../baseJS/CatchF.js");
 const slashD = require("./slashD.js");
@@ -13,13 +13,16 @@ const commandDatas = require("./slashTable.json");
 
 // 監聽斜線事件
 exports.Start = async (interaction) => {
-	if (!DSM.SIsCommand(interaction)) return;
+	if (!DBD.IIsCommand(interaction)) return;
+	if (DBD.IIsBot(interaction)) return;
+	interaction?.user?.id === process.env.MASTER_ID &&
+		console.log("slash: ", interaction);
 
 	for (i of commandDatas) {
 		if (i === null) continue;
-		if (DSM.SGetCommandName(interaction) === i.name) {
+		if (DBD.SGetCommandName(interaction) === i.name) {
 			const message = slashD.SendMessage(i, interaction);
-			await DSM.SSend(interaction, message);
+			await DBD.SSend(interaction, message);
 		}
 	}
 };
@@ -27,7 +30,7 @@ exports.Start = async (interaction) => {
 // 註冊斜線命令
 exports.InsertSlash = async () => {
 	try {
-		await DSM.SRestPutRoutes(rest, getApplicationCommands(commandDatas));
+		await DBD.SRestPutRoutes(rest, getApplicationCommands(commandDatas));
 	} catch (err) {
 		CatchF.ErrorDo(err, "InsertSlash: ");
 	}
@@ -36,13 +39,10 @@ exports.InsertSlash = async () => {
 function getApplicationCommands(commandDatas) {
 	const returnData = [];
 	for (i of commandDatas) {
-		const slashCommandBuilder = DSM.SNewSlashCommandBuilder(
-			i?.name,
-			i?.description
-		);
+		const slashCommandBuilder = DBD.SNewSlashCommand(i?.name, i?.description);
 		for (j of i?.options) {
 			const choices = j?.choices || [];
-			DSM.SNewOption(
+			DBD.SPushOption(
 				slashCommandBuilder,
 				j?.type,
 				j?.name,
