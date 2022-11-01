@@ -1,6 +1,6 @@
 //#region import
 // Discord
-const DBD = require("../baseJS/BaseDiscordBot.js");
+const BDB = require("../baseJS/BaseDiscordBot.js");
 // js
 const CatchF = require("../baseJS/CatchF.js");
 // json
@@ -21,7 +21,7 @@ exports.Start = async (msg) => {
 		const allPrefix = Object.keys(prefix);
 		for (const onePrefix in allPrefix) {
 			if (
-				DBD.MContent(msg).substring(0, prefix[onePrefix].Value.length) ===
+				BDB.MContent(msg).substring(0, prefix[onePrefix].Value.length) ===
 				prefix[onePrefix].Value
 			) {
 				nowPrefix = onePrefix;
@@ -30,10 +30,10 @@ exports.Start = async (msg) => {
 
 		switch (nowPrefix) {
 			case "0":
-				DBD.MSend(msg, "test");
+				BDB.MSend(msg, "test");
 				break;
 			case "1":
-				DBD.MSend(msg, "ok");
+				BDB.MSend(msg, "ok");
 				break;
 		}
 	} catch (err) {
