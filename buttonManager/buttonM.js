@@ -14,15 +14,7 @@ const CatchF = require("../baseJS/CatchF.js");
 
 exports.Start = async (interaction) => {
 	if (!DSM.BIsButton(interaction)) return;
-
+	if (DSM.BIsBot(interaction)) return;
 	console.log("button", interaction);
-
-	// for (i of commandDatas) {
-	// 	if (i === null) continue;
-	// 	if (DSM.SGetCommandName(interaction) === i.name) {
-	// 		console.log(interaction);
-	// 		const message = slashD.SendMessage(i, interaction);
-	// 		await DSM.SSend(interaction, message);
-	// 	}
-	// }
+	// interaction.customId
 };

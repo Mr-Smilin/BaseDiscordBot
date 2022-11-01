@@ -1,8 +1,18 @@
 # BaseDiscordBot
 
-基礎 Discord 模板
-
 基於 Discord.js 14.1.0 版
+
+# What is BDB?
+
+BDB(BaseDiscordBot)是基於 discord.js 所撰寫&維護的 js 檔
+
+因應時常推出新功能的 discord ， discord.js 也有許多代碼會做替換
+
+使用 BDB 開發，可以在往後 discord.js 更新版本時，僅需替換一個檔案，無痛兼容原本的邏輯!
+
+## get start
+
+---
 
 第一次使用請在根目錄創建 .env
 設定 bot token
@@ -12,7 +22,20 @@ TOKEN="your bot token"
 BOT_ID="your bot ID"
 ```
 
+## it can..
+
+---
+
+- [x] message (即將淘汰)
+- [x] slash 自動註冊
+- [x] option 自動套用
+- [x] choices
+- [x] button
+- [ ] ane more...
+
 ## slashTable
+
+---
 
 Discord 在斜線命令上有著豐富的擴充性
 BDB 透過 `slashTable` 與 `discord.js` 溝通

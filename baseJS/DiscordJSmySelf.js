@@ -91,7 +91,8 @@ exports.SSend = async function (discordInteraction, message, replyType = 0) {
  *
  * @returns {REST}
  */
-exports.SNewRest = () => new REST({ version: "9" }).setToken(process.env.TOKEN);
+exports.SNewRest = () =>
+	new REST({ version: "10" }).setToken(process.env.TOKEN);
 
 /** 註冊斜線命令
  *
@@ -99,7 +100,7 @@ exports.SNewRest = () => new REST({ version: "9" }).setToken(process.env.TOKEN);
  * @param {*} body
  * @returns
  */
-exports.SRestPutRoutes = async (rest, body) =>
+exports.SRestPutRoutes = async (rest, body = []) =>
 	await rest.put(Routes.applicationCommands(process.env.BOT_ID), {
 		body: body,
 	});
@@ -224,11 +225,12 @@ exports.SNewOption = (
  */
 exports.BIsButton = (discordInteraction) => discordInteraction.isButton();
 
-/** 回傳一個 ActionRowBuilder
+/** 回傳 interaction 是否為是bot發出
  *
- * @returns {ActionRowBuilder}
+ * @param {*} discordInteraction
+ * @return {boolean}
  */
-exports.BNewActionRow = () => new ActionRowBuilder();
+exports.BIsBot = (discordInteraction) => discordInteraction?.user?.bot;
 
 /** 新增一個按鈕到動作組件內
  *
@@ -241,36 +243,29 @@ exports.BActionRowAddComponents = (actionRowBuilder, components) =>
 
 /** 回傳一個 ButtonBuilder
  *
+ * @param {string} customId 傳遞的id || 當 type 為 link 時，customId 傳遞 url
+ * @param {string} label 按鈕顯示的文字
+ * @param {string} type buttonType.json
  * @returns {ButtonBuilder}
  */
-exports.BNewButton = () => new ButtonBuilder();
-
-/** Button 添加 customId
- *
- * @param {ButtonBuilder} buttonBuilder
- * @param {string} customId
- * @returns {ButtonBuilder}
- */
-exports.BButtonSetCustomId = (buttonBuilder, customId) =>
-	buttonBuilder.setCustomId(customId);
-
-/** Button 添加 label
- *
- * @param {ButtonBuilder} buttonBuilder
- * @param {string} label
- * @returns {ButtonBuilder}
- */
-exports.BButtonSetLabel = (buttonBuilder, label) =>
-	buttonBuilder.setLabel(label);
-
-/** Button 添加 style
- *
- * @param {ButtonBuilder} buttonBuilder
- * @param {string} buttonType buttonType.json
- * @returns {ButtonBuilder}
- */
-exports.BButtonSetStyle = (buttonBuilder, buttonType) =>
-	buttonBuilder.setStyle(BGetButtonType(buttonType));
+exports.BNewButton = (
+	customId = "",
+	label = "",
+	type = buttonType.blue,
+	disabled = false
+) => {
+	if (buttonType.link === type)
+		return new ButtonBuilder()
+			.setURL(customId)
+			.setLabel(label)
+			.setStyle(BGetButtonType(type))
+			.setDisabled(disabled);
+	return new ButtonBuilder()
+		.setCustomId(customId)
+		.setLabel(label)
+		.setStyle(BGetButtonType(type))
+		.setDisabled(disabled);
+};
 
 // 獲得按鈕類型(顏色)
 function BGetButtonType(type) {
@@ -287,6 +282,16 @@ function BGetButtonType(type) {
 			return ButtonStyle.Link;
 	}
 }
+
+//#endregion
+
+//#region 組件動作
+
+/** 回傳一個 ActionRowBuilder
+ *
+ * @returns {ActionRowBuilder}
+ */
+exports.NewActionRow = () => new ActionRowBuilder();
 
 //#endregion
 

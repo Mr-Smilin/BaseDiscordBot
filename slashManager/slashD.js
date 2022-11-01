@@ -12,12 +12,10 @@ exports.SendMessage = function (command, interaction) {
 		case "test":
 			const testStr =
 				interaction?.options?.getString(command.options[0].name) || "noOptions";
-			const messageAction = DSM.BNewActionRow();
-			const messageButton = DSM.BNewButton();
-			DSM.BButtonSetCustomId(messageButton, "test1");
-			DSM.BButtonSetLabel(messageButton, "test2");
-			DSM.BButtonSetStyle(messageButton, buttonType.blue);
+			const messageAction = DSM.NewActionRow();
+			const messageButton = DSM.BNewButton("test1", "test2");
 			DSM.BActionRowAddComponents(messageAction, messageButton);
+
 			return {
 				content: testStr,
 				ephemeral: command.ephemeral,
