@@ -38,7 +38,7 @@ BOT_ID="your bot ID"
 
 ---
 
-Discord 在斜線命令上有著豐富的擴充性
+Discord 在斜線命令上有著豐富的擴充性  
 BDB 透過 `slashTable` 與 `discord.js` 溝通
 
 ```
