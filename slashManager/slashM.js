@@ -6,7 +6,7 @@ const DBD = require("../baseJS/BaseDiscordBot.js");
 const rest = DBD.SNewRest();
 // js
 const CatchF = require("../baseJS/CatchF.js");
-const slashD = require("./slashD.js");
+const slashE = require("./slashE.js");
 // json
 const commandDatas = require("./slashTable.json");
 //#endregion
@@ -21,7 +21,7 @@ exports.Start = async (interaction) => {
 	for (i of commandDatas) {
 		if (i === null) continue;
 		if (DBD.SGetCommandName(interaction) === i.name) {
-			const message = slashD.SendMessage(i, interaction);
+			const message = slashE.SendMessage(i, interaction);
 			await DBD.SSend(interaction, message);
 		}
 	}
