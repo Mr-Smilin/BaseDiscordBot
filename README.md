@@ -20,6 +20,7 @@ BDB(BaseDiscordBot)是基於 discord.js 所撰寫&維護的 js 檔
 ```
 TOKEN="your bot token"
 BOT_ID="your bot ID"
+MASTER_ID="your Discord Client ID"
 ```
 
 ## it can..
