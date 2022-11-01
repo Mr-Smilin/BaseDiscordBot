@@ -11,8 +11,12 @@ const {
 	SelectMenuBuilder,
 } = require("discord.js");
 const client = new Client({
-	intents: [GatewayIntentBits?.Guilds],
-	partials: [Partials?.Message, Partials?.Channel, Partials?.Reaction],
+	intents: [GatewayIntentBits?.Guilds && 32767],
+	partials: [
+		Partials?.Message && "MESSAGE",
+		Partials?.Channel && "CHANNEL",
+		Partials?.Reaction && "REACTION",
+	],
 });
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
