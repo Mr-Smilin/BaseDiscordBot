@@ -31,6 +31,7 @@ BOT_ID="your bot ID"
 - [x] option 自動套用
 - [x] choices
 - [x] button
+- [x] selectMenu
 - [ ] ane more...
 
 ## slashTable
