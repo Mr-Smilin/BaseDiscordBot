@@ -1,6 +1,8 @@
 [
     {
         "slashId":0,
+        "replyType":0,
+        "ephemeral":true,
         "options":[
             {
                 "label": "Select me",
