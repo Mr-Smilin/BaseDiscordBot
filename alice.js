@@ -18,9 +18,13 @@ DoStart();
 async function DoStart() {
 	client = await BDB.Login(process.env.TOKEN);
 	BDB.On(client, "ready", DiscordReady);
+	// 訊息介面
 	BDB.On(client, "message", messageM.Start);
+	// 斜線指令介面
 	BDB.On(client, "slash", slashM.Start);
+	// 按鈕介面
 	BDB.On(client, "button", buttonM.Start);
+	// 選單介面
 	BDB.On(client, "selectMenu", selectMenuM.Start);
 }
 //#endregion
